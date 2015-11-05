@@ -23,9 +23,17 @@ const create = (data, cb) => {
   return course.save(cb);
 };
 
+const close = (id, cb) => {
+  return Course.findByIdAndUpdate(id, { $set: { open: false} }, function(err, res) {
+    console.log('res', err, res);
+    cb(err, res);
+  });
+};
+
 module.exports = {
   listAll,
   listOpen,
   getCourse,
-  create
+  create,
+  close
 };

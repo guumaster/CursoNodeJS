@@ -47,5 +47,18 @@ routes.get('/:courseId', (req, res, next) => {
    });
 });
 
+routes.post('/:courseId/close', (req, res, next) => {
+   // list one course
+   let id = req.params.courseId;
+
+   courses.close(id, (err) => {
+     console.log('res', err);
+     if (err) return next(err);
+
+     res.status(204).send();
+   });
+});
+
+
 
 module.exports = routes;
