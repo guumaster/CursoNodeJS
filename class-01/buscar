@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+var argv = require('yargs')
+.count('verbose')
+.usage('Usage: $0 -w [wikipedia term]')
+.alias('w', 'wikipedia')
+.alias('v', 'verbose')
+.demand('w')
+.argv;
+
+if (argv.wikipedia) {
+  console.log('BUSCAR EN WIKIPEDIA: ', argv.wikipedia);
+}
+console.log(JSON.stringify(argv, null, 2));
