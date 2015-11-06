@@ -20,6 +20,11 @@ CourseSchema.virtual('status').get(function() {
   return this.open?'open':'closed';
 });
 
+
+CourseSchema.method('isOpen', function() {
+  return this.open;
+});
+
 const CourseModel = mongoose.model('Course', CourseSchema);
 
 module.exports = CourseModel;

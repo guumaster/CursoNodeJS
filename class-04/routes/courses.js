@@ -3,6 +3,8 @@
 const express = require('express');
 const routes = express.Router();
 const courses = require('../managers/courses');
+const getCourse = require('../middlewares/courses').getCourse;
+const checkOpenCourse = require('../middlewares/courses').checkOpenCourse;
 
 //  server.com/courses/
 routes.get('/', (req, res, next) => {
@@ -34,28 +36,28 @@ routes.get('/open', (req, res, next) => {
    });
 });
 
-routes.get('/:courseId', (req, res, next) => {
-   // list one course
-   let id = req.params.courseId;
-
-   courses.get(id, (err, course) => {
-     if (err) return next(err);
-
-     res.send(course);
-   });
+routes.get('/:courseId', getCourse, (req, res) => {
+     res.send(req.course);
 });
 
-routes.post('/:courseId/close', (req, res, next) => {
-   // list one course
-   let id = req.params.courseId;
-
-   courses.close(id, (err) => {
+routes.post('/:courseId/close', getCourse, checkOpenCourse, (req, res, next) => {
+   courses.close(req.course.id, (err) => {
      if (err) return next(err);
 
      res.status(204).send();
    });
 });
 
+routes.post('/:courseId/enroll', getCourse, checkOpenCourse, (req, res, next) => {
+
+  let studentId = req.body.studentId;
+console.log('enroll students', studentId);
+   courses.enrollStudent(req.course.id, studentId, (err) => {
+     if (err) return next(err);
+
+     res.status(204).send();
+   });
+});
 
 
 module.exports = routes;

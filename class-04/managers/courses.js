@@ -14,7 +14,7 @@ const listOpen = (cb) => {
 };
 
 const getCourse = (id, cb) => {
-  return Course.findById(id).populate('students', 'fullName').exec(cb);
+  return Course.findById(id).populate('students', 'name lastName fullName').exec(cb);
 }
 
 const create = (data, cb) => {
@@ -26,9 +26,12 @@ const close = (id, cb) => {
   return Course.findByIdAndUpdate(id, { $set: { open: false} }, cb);
 };
 
-const enrollStudent = (courseId, studentId, cb) => {
+const enrollStudent = (courseId, students, cb) => {
+
+  if (!courseId || !students) return cb(new Error('Missing parameters'));
+
   return Course.findByIdAndUpdate(courseId, {
-    $push: { students: studentId }
+    $pushAll: { students: students }
   }, cb);
 };
 
