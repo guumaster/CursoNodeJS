@@ -5,7 +5,6 @@ const Course = require('../models/course');
 const listAll = (cb) => {
 
   return Course.find({}, function(err, res) {
-    console.log('find', err, res);
     cb(err, res);
   });
 };
@@ -15,7 +14,7 @@ const listOpen = (cb) => {
 };
 
 const getCourse = (id, cb) => {
-  return Course.findById(id, cb);
+  return Course.findById(id).populate('students', 'fullName').exec(cb);
 }
 
 const create = (data, cb) => {
@@ -24,10 +23,13 @@ const create = (data, cb) => {
 };
 
 const close = (id, cb) => {
-  return Course.findByIdAndUpdate(id, { $set: { open: false} }, function(err, res) {
-    console.log('res', err, res);
-    cb(err, res);
-  });
+  return Course.findByIdAndUpdate(id, { $set: { open: false} }, cb);
+};
+
+const enrollStudent = (courseId, studentId, cb) => {
+  return Course.findByIdAndUpdate(courseId, {
+    $push: { students: studentId }
+  }, cb);
 };
 
 module.exports = {
@@ -35,5 +37,6 @@ module.exports = {
   listOpen,
   getCourse,
   create,
-  close
+  close,
+  enrollStudent
 };

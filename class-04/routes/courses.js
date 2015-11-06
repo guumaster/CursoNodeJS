@@ -6,8 +6,6 @@ const courses = require('../managers/courses');
 
 //  server.com/courses/
 routes.get('/', (req, res, next) => {
-
-  console.log('list courses');
    // list all courses
    courses.listAll((err, list) => {
      if (err) return next(err);
@@ -52,7 +50,6 @@ routes.post('/:courseId/close', (req, res, next) => {
    let id = req.params.courseId;
 
    courses.close(id, (err) => {
-     console.log('res', err);
      if (err) return next(err);
 
      res.status(204).send();
