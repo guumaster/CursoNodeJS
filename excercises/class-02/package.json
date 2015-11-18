@@ -1,0 +1,17 @@
+{
+  "name": "class-02",
+  "version": "1.0.0",
+  "description": "Demo package.json",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Guumaster <guuweb@gmail.com> (http://github.com/guumaster)",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
+}
